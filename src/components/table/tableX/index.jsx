@@ -20,7 +20,7 @@ const TableX = (props) => {
       setData(props.data?.auditLog);
     }
     if (isQueryString) {
-      let reducedArray = [...props.data?.auditLog].reduce((acc, curr) => {
+      let reducedArray = props.data?.auditLog.reduce((acc, curr) => {
         const { fromDate, toDate, ...rest } = queryString;
         let flag1 = true;
         if (fromDate && !toDate) {
@@ -76,7 +76,7 @@ const TableX = (props) => {
   const getActionTypes = useMemo(
     () =>
       Object.keys(
-        [...props.data?.auditLog].reduce((acc, curr) => {
+        props.data?.auditLog.reduce((acc, curr) => {
           acc[curr.actionType] = curr.actionType;
           return acc;
         }, {})
@@ -87,7 +87,7 @@ const TableX = (props) => {
   const getApplicationType = useMemo(
     () =>
       Object.keys(
-        [...props.data?.auditLog].reduce((acc, curr) => {
+        props.data?.auditLog.reduce((acc, curr) => {
           if (curr.applicationType) {
             acc[curr.applicationType] = curr.applicationType;
           }
