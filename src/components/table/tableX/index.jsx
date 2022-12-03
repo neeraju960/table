@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useFilters, usePagination, useSortBy, useTable } from "react-table";
 import SearchFilter from "../searchFilter";
 import Hoc from "./hoc";
@@ -72,36 +72,24 @@ const TableX = (props) => {
     useSortBy,
     usePagination
   );
-
-  const getActionTypes = useMemo(
-    () =>
-      Object.keys(
+  
+  const getOptions = useCallback(
+    (key) => {
+      return Object.keys(
         props.data?.auditLog.reduce((acc, curr) => {
-          acc[curr.actionType] = curr.actionType;
+          acc[curr[key]] = curr[key];
           return acc;
         }, {})
-      ),
-    []
-  );
-
-  const getApplicationType = useMemo(
-    () =>
-      Object.keys(
-        props.data?.auditLog.reduce((acc, curr) => {
-          if (curr.applicationType) {
-            acc[curr.applicationType] = curr.applicationType;
-          }
-          return acc;
-        }, {})
-      ),
-    []
+      );
+    },
+    [props.data?.auditLog]
   );
 
   return (
     <div className="h-full w-full flex flex-col gap-y-2 overflow-hidden py-2">
       <SearchFilter
-        actionTypeOptions={getActionTypes}
-        applicationTypeOptions={getApplicationType}
+        actionTypeOptions={getOptions("actionType")}
+        applicationTypeOptions={getOptions("applicationType")}
       />
       <div className="flex-1 flex flex-col overflow-auto">
         <div className="flex-1 overflow-auto">

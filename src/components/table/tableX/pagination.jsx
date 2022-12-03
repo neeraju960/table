@@ -6,7 +6,7 @@ import {
   BsThreeDots,
 } from "react-icons/bs";
 
-export default function Pagination({
+function Pagination({
   gotoPage,
   canPreviousPage,
   canNextPage,
@@ -45,3 +45,5 @@ export default function Pagination({
     />
   );
 }
+
+export default React.memo(Pagination)
