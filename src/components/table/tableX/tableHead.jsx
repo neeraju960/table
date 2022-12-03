@@ -44,4 +44,4 @@ const TableHead = ({headerGroups}) => {
   );
 };
 
-export default React.memo(TableHead);
+export default TableHead;

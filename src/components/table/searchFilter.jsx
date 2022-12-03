@@ -26,6 +26,7 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
           (final += `${final ? "&" : "?"}${curr}=${values[curr]}`),
         ""
       );
+      console.log(values)
       navigate(qs);
     }
   };
