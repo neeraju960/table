@@ -12,7 +12,8 @@ import { getQueryStringJson } from "../shared/helper";
 
 const TableX = (props) => {
   const location = useLocation();
-  const [data, setData] = useState(props.data?.auditLog);
+  // const [data, setData] = useState(props.data?.auditLog);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const { isQueryString, queryString } = getQueryStringJson();
