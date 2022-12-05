@@ -26,7 +26,7 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
           (final += `${final ? "&" : "?"}${curr}=${values[curr]}`),
         ""
       );
-      console.log(values)
+      console.log(values);
       navigate(qs);
     }
   };
@@ -40,6 +40,22 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
       toDate: "",
       applicationId: "",
     });
+  };
+
+  const handleOnChange = (e, key) => {
+    const { isQueryString, queryString } = getQueryStringJson();
+    if (isQueryString) {
+      queryString[key] = e.target.value;
+      let keys = Object.keys(queryString);
+      let qs = keys.reduce(
+        (final, curr) =>
+          (final += `${final ? "&" : "?"}${curr}=${queryString[curr]}`),
+        ""
+      );
+      navigate(qs);
+      return;
+    }
+    return navigate(`?${key}=${e.target.value}`);
   };
 
   return (
@@ -61,7 +77,7 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
       />
       <DatePicker label="From Date" name="fromDate" register={register} />
       <DatePicker label="To Date" name="toDate" register={register} />
-      <Input label="Application Id" name="applicationId" register={register} />
+      <Input label="Application Id" name="applicationId" register={register} onChange={handleOnChange}/>
 
       <div className="grid grid-cols-2 gap-x-2">
         <button className="btn btn-outline mt-9">Submit</button>

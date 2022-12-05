@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useFilters, usePagination, useSortBy, useTable } from "react-table";
+import { useFilters, useFlexLayout, usePagination, useSortBy, useTable } from "react-table";
 import SearchFilter from "../searchFilter";
 import Hoc from "./hoc";
 import TableBody from "./tableBody";
@@ -12,7 +12,6 @@ import { getQueryStringJson } from "../shared/helper";
 
 const TableX = (props) => {
   const location = useLocation();
-  // const [data, setData] = useState(props.data?.auditLog);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -45,7 +44,10 @@ const TableX = (props) => {
           );
         }
         let flag = Object.keys(rest).every(
-          (key) => `${rest[key]}` === `${curr[key]}`
+          (key) =>
+            `${curr[key]}`
+              .toLocaleLowerCase()
+              .indexOf(`${rest[key]}`.toLocaleLowerCase()) > -1
         );
         flag1 && flag && acc.push(curr);
         return acc;
@@ -67,13 +69,14 @@ const TableX = (props) => {
   } = useTable(
     {
       columns: col,
-      data: data,
+      data: data
     },
     useFilters,
     useSortBy,
+    useFlexLayout,
     usePagination
   );
-  
+
   const getOptions = useCallback(
     (key) => {
       return Object.keys(
@@ -85,6 +88,7 @@ const TableX = (props) => {
     },
     [props.data?.auditLog]
   );
+
 
   return (
     <div className="h-full w-full flex flex-col gap-y-2 overflow-hidden py-2">

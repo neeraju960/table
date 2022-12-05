@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function Input({label,name,register}) {
+function Input({ label, name, register, onChange }) {
+  const navigate = useNavigate();
   return (
     <div className="form-control w-full max-w-xs">
       <label className="label">
@@ -8,7 +10,9 @@ function Input({label,name,register}) {
       </label>
       <input
         type="text"
-        {...register(name)}
+        {...register(name, {
+          onChange: (e) => onChange(e, name),
+        })}
         placeholder="Type here"
         className="input input-bordered w-full max-w-xs"
       />
@@ -16,4 +20,4 @@ function Input({label,name,register}) {
   );
 }
 
-export default Input
+export default Input;

@@ -21,7 +21,7 @@ const TableBody = ({ getTableBodyProps, prepareRow, page }) => {
               className="transition-all bg-white border-b"
             >
               {row.cells.map((cell) => (
-                <td {...cell.getCellProps()} className="py-4 px-6">
+                <td {...cell.getCellProps()} className="py-4 px-6 truncate">
                   {cell.render("Cell")}
                 </td>
               ))}
