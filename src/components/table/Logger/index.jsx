@@ -10,7 +10,7 @@ import moment from "moment";
 import { useLocation } from "react-router-dom";
 import { getQueryStringJson } from "../shared/helper";
 
-const TableX = (props) => {
+const Logger = (props) => {
   const location = useLocation();
   const [data, setData] = useState([]);
 
@@ -121,4 +121,4 @@ const TableX = (props) => {
   );
 };
 
-export default Hoc(TableX);
+export default Hoc(Logger);
