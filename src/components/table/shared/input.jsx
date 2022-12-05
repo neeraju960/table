@@ -1,8 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-
 function Input({ label, name, register, onChange }) {
-  const navigate = useNavigate();
   return (
     <div className="form-control w-full max-w-xs">
       <label className="label">

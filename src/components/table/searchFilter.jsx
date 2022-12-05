@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import DatePicker from "./shared/datePicker";
@@ -10,25 +11,30 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const { isQueryString, queryString } = getQueryStringJson();
-    isQueryString && reset(queryString);
-  }, [location]);
-
-  const { register, handleSubmit, reset } = useForm();
-
-  const handleOnSubmit = (values) => {
-    Object.keys(values).map((key) => !values[key] && delete values[key]);
+  const makeQS = useCallback((values) => {
     let keys = Object.keys(values);
     if (keys.length) {
-      let qs = keys.reduce(
+      return keys.reduce(
         (final, curr) =>
           (final += `${final ? "&" : "?"}${curr}=${values[curr]}`),
         ""
       );
-      console.log(values);
-      navigate(qs);
     }
+    return "";
+  }, []);
+
+  useEffect(() => {
+    const { isQueryString, queryString } = getQueryStringJson();
+    if (isQueryString) {
+      reset(queryString);
+    }
+  }, [location]);
+
+  const { register, handleSubmit, reset, watch } = useForm();
+
+  const handleOnSubmit = (values) => {
+    Object.keys(values).map((key) => !values[key] && delete values[key]);
+    navigate(makeQS(values));
   };
 
   const manualReset = () => {
@@ -46,6 +52,9 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
     const { isQueryString, queryString } = getQueryStringJson();
     if (isQueryString) {
       queryString[key] = e.target.value;
+      if (!queryString[key]) {
+        delete queryString[key];
+      }
       let keys = Object.keys(queryString);
       let qs = keys.reduce(
         (final, curr) =>
@@ -77,7 +86,12 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
       />
       <DatePicker label="From Date" name="fromDate" register={register} />
       <DatePicker label="To Date" name="toDate" register={register} />
-      <Input label="Application Id" name="applicationId" register={register} onChange={handleOnChange}/>
+      <Input
+        label="Application Id"
+        name="applicationId"
+        register={register}
+        onChange={handleOnChange}
+      />
 
       <div className="grid grid-cols-2 gap-x-2">
         <button className="btn btn-outline mt-9">Submit</button>
