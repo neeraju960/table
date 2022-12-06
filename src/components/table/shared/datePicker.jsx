@@ -1,8 +1,9 @@
 import React from "react";
 import { getQueryStringJson } from "./helper";
 
-const DatePicker = ({ label, name, register }) => {
+const DatePicker = ({ label, name, register, value }) => {
   const { queryString } = getQueryStringJson();
+  console.log(queryString[name]);
   return (
     <div className="form-control w-full max-w-xs">
       <label className="label">
@@ -10,9 +11,7 @@ const DatePicker = ({ label, name, register }) => {
       </label>
       <input
         type="date"
-        {...(queryString[name] && {
-          defaultValue: new Date(queryString[name]).toISOString().slice(0, 10),
-        })}
+        value={value ? new Date(value).toISOString().slice(0, 10) : ""}
         {...register(name)}
         placeholder="Select Date"
         className="input input-bordered w-full max-w-xs"

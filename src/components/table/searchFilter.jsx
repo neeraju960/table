@@ -25,12 +25,20 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
 
   useEffect(() => {
     const { isQueryString, queryString } = getQueryStringJson();
-    if (isQueryString) {
-      reset(queryString);
-    }
+    reset(
+      isQueryString
+        ? queryString
+        : {
+            actionType: "",
+            applicationType: "",
+            fromDate: "",
+            toDate: "",
+            applicationId: "",
+          }
+    );
   }, [location]);
 
-  const { register, handleSubmit, reset, watch } = useForm();
+  const { register, handleSubmit, reset, getValues } = useForm();
 
   const handleOnSubmit = (values) => {
     Object.keys(values).map((key) => !values[key] && delete values[key]);
@@ -38,7 +46,7 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
   };
 
   const manualReset = () => {
-    navigate("/");
+    flag && navigate("/");
     reset({
       actionType: "",
       applicationType: "",
@@ -84,8 +92,8 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
         options={applicationTypeOptions}
         register={register}
       />
-      <DatePicker label="From Date" name="fromDate" register={register} />
-      <DatePicker label="To Date" name="toDate" register={register} />
+      <DatePicker label="From Date" name="fromDate" register={register} value={getValues("fromDate")}/>
+      <DatePicker label="To Date" name="toDate" register={register} value={getValues("toDate")}/>
       <Input
         label="Application Id"
         name="applicationId"
