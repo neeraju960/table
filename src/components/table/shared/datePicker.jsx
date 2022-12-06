@@ -1,9 +1,5 @@
 import React from "react";
-import { getQueryStringJson } from "./helper";
-
 const DatePicker = ({ label, name, register, value }) => {
-  const { queryString } = getQueryStringJson();
-  console.log(queryString[name]);
   return (
     <div className="form-control w-full max-w-xs">
       <label className="label">

@@ -38,7 +38,7 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
     );
   }, [location]);
 
-  const { register, handleSubmit, reset, getValues } = useForm();
+  const { register, handleSubmit, reset, watch } = useForm();
 
   const handleOnSubmit = (values) => {
     Object.keys(values).map((key) => !values[key] && delete values[key]);
@@ -46,7 +46,7 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
   };
 
   const manualReset = () => {
-    flag && navigate("/");
+    navigate("/");
     reset({
       actionType: "",
       applicationType: "",
@@ -92,8 +92,8 @@ const SearchFilter = ({ actionTypeOptions, applicationTypeOptions }) => {
         options={applicationTypeOptions}
         register={register}
       />
-      <DatePicker label="From Date" name="fromDate" register={register} value={getValues("fromDate")}/>
-      <DatePicker label="To Date" name="toDate" register={register} value={getValues("toDate")}/>
+      <DatePicker label="From Date" name="fromDate" register={register} value={watch("fromDate")}/>
+      <DatePicker label="To Date" name="toDate" register={register} value={watch("toDate")}/>
       <Input
         label="Application Id"
         name="applicationId"
